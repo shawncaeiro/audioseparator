@@ -1,5 +1,6 @@
 from flask import Flask, render_template, url_for, request, send_from_directory, redirect
 from werkzeug import secure_filename
+from audiostuff import save_spectrogram
 import os
 
 UPLOAD_FOLDER = 'uploads/'
@@ -25,9 +26,15 @@ def index():
 
 @app.route('/thanks/<filename>')
 def thanks(filename):
-    filepath = '/useruploads/' + filename
+    filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
     context = {'filename': filename, 'filepath': filepath}
+    save_spectrogram(filepath, filename)
     return render_template('thanks.html', context = context)
+
+@app.route('/talkover/<filename>')
+def talkover(filename):
+    context = {}
+    return render_template('talkover.html', context = context)
 
 @app.route('/useruploads/<filename>')
 def uploaded_file(filename):
