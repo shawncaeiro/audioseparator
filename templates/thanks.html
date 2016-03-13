@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Index{% endblock %}
+{% block content %}
+  <h1 class="text-center">Thanks for uploading {{context.filename}}!</h1>
+  <h3 class="text-center"> Give it a listen:</h3>
+  <audio controls>
+  <source class='text-center' src="{{context.filepath}}">
+  </audio>
+    <audio controls autoplay></audio>
+    <script type="text/javascript" src="{{url_for('static', filename='js/recorder.js')}}"> </script>
+
+    <input onclick="startRecording()" type="button" value="start recording" />
+    <input onclick="stopRecording()" type="button" value="stop recording and play" />
+
+    <script>
+      var onFail = function(e) {
+        console.log('Rejected!', e);
+      };
+
+      var onSuccess = function(s) {
+        var context = new webkitAudioContext();
+        var mediaStreamSource = context.createMediaStreamSource(s);
+        recorder = new Recorder(mediaStreamSource);
+        recorder.record();
+
+        // audio loopback
+        // mediaStreamSource.connect(context.destination);
+      }
+
+      window.URL = window.URL || window.webkitURL;
+      navigator.getUserMedia  = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
+      var recorder;
+      var audio = document.querySelector('audio');
+
+      function startRecording() {
+        if (navigator.getUserMedia) {
+          navigator.getUserMedia({audio: true}, onSuccess, onFail);
+        } else {
+          console.log('navigator.getUserMedia not present');
+        }
+      }
+
+      function stopRecording() {
+        recorder.stop();
+        recorder.exportWAV(function(s) {
+          audio.src = window.URL.createObjectURL(s);
+        });
+      }
+    </script>
+{% endblock %}

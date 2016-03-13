@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Index{% endblock %}
+{% block content %}
+<h1 class="text-center">Upload a Song!</h1>
+  <form action="" method=post enctype=multipart/form-data>
+<div class="input-group">
+
+  <span class="input-group-btn">
+                  <span class="btn btn-primary btn-file">
+                      Browse&hellip; <input type="file" name="file">
+                  </span>
+  </span>
+  <input type="text" class="form-control" readonly>
+  <span class="input-group-btn">
+          <input class="btn btn-default" type=submit value=Upload!>
+    </span>
+      </div>
+    </form>
+
+{% endblock %}
+{% block js %}
+  <script src="{{url_for('static', filename='js/upload.js')}}"></script>
+{% endblock %}
