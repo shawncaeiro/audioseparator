@@ -43,7 +43,7 @@ def thanks(filename):
 def talkover(filename):
     length = getsonglength(os.path.join(application.config['UPLOAD_FOLDER'], filename))
     application.logger.warning(length)
-    context = {}
+    context = {'length':length}
     return render_template('talkover.html', context = context)
 
 @application.route('/useruploads/<filename>')
