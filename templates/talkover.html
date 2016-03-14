@@ -9,9 +9,10 @@
   <script type="text/javascript" src="{{url_for('static', filename='js/recorder.js')}}">
   </script>
   <span id="upurl" style="display:none;">{{context.uploadurl}}</span>
-  <input class="btn btn-default" onclick="startRecording(); setTimeout(stopRecording, {{context.lengthms}})" type="button" value="start recording" />
-  <input onclick="stopRecording({{context.lengthms}})" type="button" value="Stop" class="btn btn-default" />
+  <input id="startbtn" class="btn btn-default" onclick="startRecording(); setTimeout(stopRecording, {{context.lengthms}})" type="button" value="start recording" />
+  <input id="stopbtn" onclick="stopRecording({{context.lengthms}})" type="button" value="Stop" class="btn btn-default" />
   <br>
+  <button id="submitbtn" onclick="submitBlobby()" class="btn btn-default">Submit Voice!</button>
   <!-- <form action="" method=post enctype=multipart/form-data>
     <input type="file" id="hidden" name="file" style="display:none;" />
   </form> -->
@@ -40,6 +41,9 @@
     var recorder;
     var audio = document.querySelector('audio');
     var uploadurl = document.getElementById('upurl').innerHTML;
+    var startbtn = document.getElementById('startbtn');
+    var stopbtn = document.getElementById('stopbtn');
+    blobby = new Blob();
 
     function startRecording() {
       if (navigator.getUserMedia) {
@@ -49,25 +53,32 @@
       }
     }
 
+    function submitBlobby() {
+      // var hidden_elem = document.getElementById("hidden");
+      // uploadAudioFromBlob(s);
+      var fd = new FormData();
+      // fd.append('fname', 'test.wav');
+      fd.append('file', s, 'newfile.wav');
+      $.ajax({
+          type: 'POST',
+          url: uploadurl,
+          data: fd,
+          processData: false,
+          contentType: false
+      }).done(function(data) {
+             window.location.href=data;
+      });
+    }
+
     function stopRecording() {
-      audio.style.display='block';
+      audio.style.display='inline';
+      startbtn.style.display='none';
+      stopbtn.style.display='none';
+      submitbtn.style.display='inline';
       // upfile.style.display='block';
       recorder.stop();
       recorder.exportWAV(function(s) {
-        var hidden_elem = document.getElementById("hidden");
-        // uploadAudioFromBlob(s);
-        var fd = new FormData();
-        // fd.append('fname', 'test.wav');
-        fd.append('file', s, 'newfile.wav');
-        $.ajax({
-            type: 'POST',
-            url: uploadurl,
-            data: fd,
-            processData: false,
-            contentType: false
-        }).done(function(data) {
-               console.log(data);
-        });
+        blobby = s;
         audio.src = window.URL.createObjectURL(s);
         // hidden_elem.value = window.URL.createObjectURL(s);
         alert('DONE');

@@ -41,8 +41,7 @@ def uploadtalk(filename):
             # application.logger.warning(file.filename)
             # filename = secure_filename(file.filename)
             file.save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
-    return 'thanks'
-
+    return url_for('uploaded_file', filename = filename)
 
 @application.route('/thanks/<filename>')
 def thanks(filename):
