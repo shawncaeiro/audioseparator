@@ -40,8 +40,10 @@ def uploadtalk(filename):
         if file:
             # application.logger.warning(file.filename)
             # filename = secure_filename(file.filename)
-            file.save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
-    return url_for('uploaded_file', filename = filename)
+            file.save(os.path.join(application.config['UPLOAD_FOLDER'], 'voicey' + filename))
+            combinedpath = os.path.join(application.config['UPLOAD_FOLDER'], 'combined' + filename)
+            combinesongs(os.path.join(application.config['UPLOAD_FOLDER'], filename), os.path.join(application.config['UPLOAD_FOLDER'], 'voicey' + filename), combinedpath)
+    return url_for('uploaded_file', filename = combinedpath)
 
 @application.route('/thanks/<filename>')
 def thanks(filename):
@@ -52,7 +54,7 @@ def thanks(filename):
 
 @application.route('/talkover/<filename>')
 def talkover(filename):
-    uploadurl = '/uploadtalk/voicey' + filename
+    uploadurl = '/uploadtalk/' + filename
     truelength = getsonglength(os.path.join(application.config['UPLOAD_FOLDER'], filename))
     length = int(round(truelength))
     lengthms = int(round(truelength * 1000))
