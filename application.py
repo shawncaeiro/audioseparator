@@ -2,16 +2,16 @@ from flask import Flask, render_template, url_for, request, send_from_directory,
 from werkzeug import secure_filename
 # from sidefunctions import numsamples
 import os
-from flask_sslify import SSLify
+# from flask_sslify import SSLify
 
 UPLOAD_FOLDER = 'uploads/'
 ALLOWED_EXTENSIONS = set(['wav', 'mp3'])
 
 application = Flask(__name__)
 application.debug = False
-
-if 'DYNO' in os.environ: # only trigger SSLify if the app is running on Heroku
-    sslify = SSLify(application)
+#
+# if 'DYNO' in os.environ: # only trigger SSLify if the app is running on Heroku
+#     sslify = SSLify(application)
 
 application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
