@@ -1,6 +1,6 @@
 from flask import Flask, render_template, url_for, request, send_from_directory, redirect
 from werkzeug import secure_filename
-from sidefunctions import getsonglength, combinesongs, split
+from sidefunctions import getsonglength, combinesongs, splitty
 import logging
 import os
 # from flask_sslify import SSLify
@@ -49,14 +49,14 @@ def combined(filename):
     combinedfilename = 'combined' + filename
     split1filename = 'split1' + filename
     split2filename = 'split2' + filename
-    split(os.path.join(application.config['UPLOAD_FOLDER'], combinedfilename), os.path.join(application.config['UPLOAD_FOLDER'], split1filename), os.path.join(application.config['UPLOAD_FOLDER'], split2filename))
+    splitty(os.path.join(application.config['UPLOAD_FOLDER'], combinedfilename), os.path.join(application.config['UPLOAD_FOLDER'], split1filename), os.path.join(application.config['UPLOAD_FOLDER'], split2filename))
     context = {'combinedfilename':combinedfilename, 'filename':filename}
     return render_template('combined.html', context = context)
 
-@application.route('/split/<filename>')
-def split(filename):
-    split1filename = 'split1' + filename
-    split2filename = 'split2' + filename
+# @application.route('/split/<filename>')
+# def split(filename):
+#     split1filename = 'split1' + filename
+#     split2filename = 'split2' + filename
 
 @application.route('/thanks/<filename>')
 def thanks(filename):

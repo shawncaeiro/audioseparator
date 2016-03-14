@@ -14,7 +14,7 @@ def combinesongs(path_to_audio, path_to_voice, path_of_output):
     song[0:len(voice)] += voice
     librosa.output.write_wav(path_of_output, song, sr)
 
-def split(path_to_audio, path_to_output1, path_to_output2):
+def splitty(path_to_audio, path_to_output1, path_to_output2):
     window_size = 2048
     hop_size = 1024
     combined, sr = load(path_to_audio)
