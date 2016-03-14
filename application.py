@@ -32,15 +32,16 @@ def index():
                                     filename=filename, _scheme='https', _external=True))
     return render_template('index.html')
 
-@application.route('/uploadtalk/<filename>', methods=['POST'])
-def uploadtalk(filename):
+@application.route('/uploadtalk', methods=['POST'])
+def uploadtalk():
     application.logger.warning("uploadtalk!")
     if request.method == 'POST':
         data = request.get_json()
-        file = data['audio']
-        if file:
-            filename = secure_filename(filename)
-            file.save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
+        application.logger.warning(data)
+        # file = data['data']
+        # if file:
+        #     filename = secure_filename(filename)
+        #     file.save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
     return 'thanks'
 
 

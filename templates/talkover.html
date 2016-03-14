@@ -17,6 +17,8 @@
   </form> -->
   <!-- <button class="btn btn-default" id="upfile" style="display:none;" onclick="uploadtalking()">Upload Talking!</button> -->
 </div>
+{% endblock %}
+{% block js %}
   <script>
     var onFail = function(e) {
       console.log('Rejected!', e);
@@ -94,6 +96,18 @@
       recorder.exportWAV(function(s) {
         var hidden_elem = document.getElementById("hidden");
         // uploadAudioFromBlob(s);
+        var fd = new FormData();
+        // fd.append('fname', 'test.wav');
+        fd.append('data', s);
+        $.ajax({
+            type: 'POST',
+            url: '/uploadtalk',
+            data: fd,
+            processData: false,
+            contentType: false
+        }).done(function(data) {
+               console.log(data);
+        });
         audio.src = window.URL.createObjectURL(s);
         // hidden_elem.value = window.URL.createObjectURL(s);
         alert('DONE');
