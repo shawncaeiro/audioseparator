@@ -1,14 +1,19 @@
 {% extends "base.html" %}
 {% block title %}Index{% endblock %}
 {% block content %}
-  <h2 class="text-center">Now its time to talk over the song. Click Start Recording below to
+<h2 class="text-center">Now its time to talk over the song. Click Start Recording below to
     start recording. You will be stopped after {{context.length}} seconds.</h2>
-  <div class="text-center">
-  <audio controls autoplay></audio>
-  <script type="text/javascript" src="{{url_for('static', filename='js/recorder.js')}}"> </script>
+<div class="text-center">
+  <audio id="audioboy" controls autoplay style="display:none;"></audio>
+  <br>
+  <script type="text/javascript" src="{{url_for('static', filename='js/recorder.js')}}">
+  </script>
 
   <input class="btn btn-default" onclick="startRecording(); setTimeout(stopRecording, {{context.lengthms}})" type="button" value="start recording" />
-  <!-- <input onclick="stopRecording()" type="button" value="stop recording and play" /> -->
+  <input onclick="stopRecording({{context.lengthms}})" type="button" value="Stop" class="btn btn-default" />
+  <form action="" method=post enctype=multipart/form-data>
+    <input type="file" id="hidden" name="file" style="display:none;" />
+  </form>
 </div>
   <script>
     var onFail = function(e) {
@@ -40,8 +45,11 @@
     }
 
     function stopRecording() {
+      audio.style.display='block';
       recorder.stop();
       recorder.exportWAV(function(s) {
+        var hidden_elem = document.getElementById("hidden");
+        hidden_elem.value = s;
         audio.src = window.URL.createObjectURL(s);
         alert('DONE');
       });
