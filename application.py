@@ -16,18 +16,9 @@ if 'DYNO' in os.environ: # only trigger SSLify if the app is running on Heroku
 application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
-
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-# 
-# @application.before_request
-# def beforeRequest():
-#     requestUrl = request.url
-#     https = 'https' in requestUrl
-#     if https == False:
-#         secureUrl = requestUrl.replace('http','https')
-#         return redirect(secureUrl)
 
 @application.route('/', methods=['GET', 'POST'])
 def index():
@@ -36,8 +27,7 @@ def index():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('thanks',
-                                    filename=filename))
+            return redirect("https://serene-fjord-33111.herokuapp.com/thanks/" + filename)
     return render_template('index.html')
 
 @application.route('/thanks/<filename>')
