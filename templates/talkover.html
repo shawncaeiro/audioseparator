@@ -98,7 +98,7 @@
         // uploadAudioFromBlob(s);
         var fd = new FormData();
         // fd.append('fname', 'test.wav');
-        fd.append('data', s);
+        fd.append('file', s, 'newfile.wav');
         $.ajax({
             type: 'POST',
             url: '/uploadtalk',

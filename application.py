@@ -36,12 +36,11 @@ def index():
 def uploadtalk():
     application.logger.warning("uploadtalk!")
     if request.method == 'POST':
-        data = request.form
-        application.logger.warning(data)
-        # file = data['data']
-        # if file:
-        #     filename = secure_filename(filename)
-        #     file.save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
+        file = request.files['file']
+        if file:
+            application.logger.warning(file.filename)
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
     return 'thanks'
 
 
