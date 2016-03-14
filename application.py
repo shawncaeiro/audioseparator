@@ -33,7 +33,7 @@ def index():
     return render_template('index.html')
 
 @application.route('/uploadtalk/<filename>', methods=['POST'])
-def index():
+def uploadtalk(filename):
     application.logger.warning("uploadtalk!")
     if request.method == 'POST':
         data = request.get_json()
