@@ -1,6 +1,6 @@
 from flask import Flask, render_template, url_for, request, send_from_directory, redirect
 from werkzeug import secure_filename
-from sidefunctions import getsonglength
+from sidefunctions import getsonglength, combinesongs
 import logging
 import os
 # from flask_sslify import SSLify
