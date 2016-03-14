@@ -9,10 +9,11 @@
   <script type="text/javascript" src="{{url_for('static', filename='js/recorder.js')}}">
   </script>
   <span id="upurl" style="display:none;">{{context.uploadurl}}</span>
-  <input id="startbtn" class="btn btn-default" onclick="startRecording(); setTimeout(stopRecording, {{context.lengthms}})" type="button" value="start recording" />
+  <span id="lengthms" style="display:none;">{{context.lengthms}}</span>
+  <input id="startbtn" class="btn btn-default" onclick="startRecording();" type="button" value="start recording" />
   <input id="stopbtn" onclick="stopRecording({{context.lengthms}})" type="button" value="Stop" class="btn btn-default" />
   <br>
-  <button id="submitbtn" onclick="submitBlobby()" class="btn btn-default">Submit Voice!</button>
+  <button id="submitbtn" onclick="submitBlobby()" class="btn btn-default" style="display:none;">Submit Voice!</button>
   <!-- <form action="" method=post enctype=multipart/form-data>
     <input type="file" id="hidden" name="file" style="display:none;" />
   </form> -->
@@ -43,10 +44,13 @@
     var uploadurl = document.getElementById('upurl').innerHTML;
     var startbtn = document.getElementById('startbtn');
     var stopbtn = document.getElementById('stopbtn');
+    var lengthms = document.getElementById('lengthms').innerHTML;
     blobby = new Blob();
 
     function startRecording() {
       if (navigator.getUserMedia) {
+        stoptimeout = setTimeout(stopRecording, lengthms);
+        stopbtn.style.display='inline';
         navigator.getUserMedia({audio: true}, onSuccess, onFail);
       } else {
         console.log('navigator.getUserMedia not present');
@@ -58,7 +62,7 @@
       // uploadAudioFromBlob(s);
       var fd = new FormData();
       // fd.append('fname', 'test.wav');
-      fd.append('file', s, 'newfile.wav');
+      fd.append('file', blobby, 'newfile.wav');
       $.ajax({
           type: 'POST',
           url: uploadurl,
@@ -71,8 +75,9 @@
     }
 
     function stopRecording() {
+      clearTimeout(stoptimeout);
       audio.style.display='inline';
-      startbtn.style.display='none';
+      // startbtn.style.display='none';
       stopbtn.style.display='none';
       submitbtn.style.display='inline';
       // upfile.style.display='block';
