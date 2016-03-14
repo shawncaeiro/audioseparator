@@ -1,6 +1,7 @@
 from flask import Flask, render_template, url_for, request, send_from_directory, redirect
 from werkzeug import secure_filename
-# from sidefunctions import numsamples
+from sidefunctions import getsonglength
+import logging
 import os
 # from flask_sslify import SSLify
 
@@ -21,6 +22,7 @@ def allowed_file(filename):
 
 @application.route('/', methods=['GET', 'POST'])
 def index():
+    application.logger.warning("INDEX!")
     if request.method == 'POST':
         file = request.files['file']
         if file and allowed_file(file.filename):
@@ -39,6 +41,8 @@ def thanks(filename):
 
 @application.route('/talkover/<filename>')
 def talkover(filename):
+    length = getsonglength(os.path.join(application.config['UPLOAD_FOLDER'], filename))
+    application.logger.warning(length)
     context = {}
     return render_template('talkover.html', context = context)
 
