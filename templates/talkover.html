@@ -89,11 +89,11 @@
 
     function stopRecording() {
       audio.style.display='block';
-      upfile.style.display='block';
+      // upfile.style.display='block';
       recorder.stop();
       recorder.exportWAV(function(s) {
         var hidden_elem = document.getElementById("hidden");
-        uploadAudioFromBlob(s);
+        // uploadAudioFromBlob(s);
         audio.src = window.URL.createObjectURL(s);
         // hidden_elem.value = window.URL.createObjectURL(s);
         alert('DONE');
