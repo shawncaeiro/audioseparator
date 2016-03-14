@@ -1,4 +1,4 @@
 Flask==0.10.1
-numpy==1.8.0
-scipy==0.13.0
+numpy==1.9.2
+scipy==0.15.1
 librosa==0.4.2
