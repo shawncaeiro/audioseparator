@@ -8,8 +8,7 @@ UPLOAD_FOLDER = 'uploads/'
 ALLOWED_EXTENSIONS = set(['wav', 'mp3'])
 
 application = Flask(__name__)
-application.debug = False
-#
+# application.debug = False
 # if 'DYNO' in os.environ: # only trigger SSLify if the app is running on Heroku
 #     sslify = SSLify(application)
 
@@ -27,7 +26,8 @@ def index():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
-            return redirect("https://serene-fjord-33111.herokuapp.com/thanks/" + filename)
+            return redirect(url_for('thanks',
+                                    filename=filename, _scheme='https', _external=True))
     return render_template('index.html')
 
 @application.route('/thanks/<filename>')
@@ -48,5 +48,5 @@ def uploaded_file(filename):
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
-    application.run(host='0.0.0.0', port=port, debug=False)
+    application.run(host='0.0.0.0', port=port, debug=True)
     # application.run(port=port, debug=True)

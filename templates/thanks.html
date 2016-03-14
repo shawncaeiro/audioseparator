@@ -8,7 +8,7 @@
     <source class='text-center' src="{{'/useruploads/' + context.filename}}">
   </audio>
 </div>
-<form action="{{'https://serene-fjord-33111.herokuapp.com/talkover/' + context.filename)}}" class="text-center">
+<form action="{{url_for('talkover', filename=context.filename, _scheme='https', _external=True)}}" class="text-center">
   <input class="btn btn-default" type="submit" value="Sounds Good!">
 </form>
 {% endblock %}
