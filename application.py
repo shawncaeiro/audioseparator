@@ -3,14 +3,15 @@ from werkzeug import secure_filename
 # from sidefunctions import numsamples
 import os
 from flask_sslify import SSLify
-if 'DYNO' in os.environ: # only trigger SSLify if the app is running on Heroku
-    sslify = SSLify(app)
-    
+
 UPLOAD_FOLDER = 'uploads/'
 ALLOWED_EXTENSIONS = set(['wav', 'mp3'])
 
 application = Flask(__name__)
 application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+if 'DYNO' in os.environ: # only trigger SSLify if the app is running on Heroku
+    sslify = SSLify(application)
 
 def allowed_file(filename):
     return '.' in filename and \
