@@ -2,13 +2,14 @@
 {% block title %}Index{% endblock %}
 {% block content %}
   <h2 class="text-center">Now its time to talk over the song. Click Start Recording below to
-    start recording. You will be stopped after {{context.length}} seconds.
+    start recording. You will be stopped after {{context.length}} seconds.</h2>
+  <div class="text-center">
   <audio controls autoplay></audio>
   <script type="text/javascript" src="{{url_for('static', filename='js/recorder.js')}}"> </script>
 
-  <input class="btn btn-default" onclick="startRecording(); setTimeout(stopRecording, 3000)" type="button" value="start recording" />
+  <input class="btn btn-default" onclick="startRecording(); setTimeout(stopRecording, {{context.lengthms}})" type="button" value="start recording" />
   <!-- <input onclick="stopRecording()" type="button" value="stop recording and play" /> -->
-
+</div>
   <script>
     var onFail = function(e) {
       console.log('Rejected!', e);

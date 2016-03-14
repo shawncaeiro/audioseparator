@@ -6,7 +6,7 @@ import os
 # from flask_sslify import SSLify
 
 UPLOAD_FOLDER = 'uploads/'
-ALLOWED_EXTENSIONS = set(['wav', 'mp3'])
+ALLOWED_EXTENSIONS = set(['wav'])
 
 application = Flask(__name__)
 # application.debug = False
@@ -41,9 +41,11 @@ def thanks(filename):
 
 @application.route('/talkover/<filename>')
 def talkover(filename):
-    length = getsonglength(os.path.join(application.config['UPLOAD_FOLDER'], filename))
+    truelength = getsonglength(os.path.join(application.config['UPLOAD_FOLDER'], filename))
+    length = int(round(truelength))
+    lengthms = int(round(truelength * 1000))
     application.logger.warning(length)
-    context = {'length':length}
+    context = {'length':length, 'lengthms':lengthms}
     return render_template('talkover.html', context = context)
 
 @application.route('/useruploads/<filename>')
