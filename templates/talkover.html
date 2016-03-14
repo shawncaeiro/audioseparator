@@ -4,7 +4,7 @@
   <audio controls autoplay></audio>
   <script type="text/javascript" src="{{url_for('static', filename='js/recorder.js')}}"> </script>
 
-  <input onclick="startRecording(); setTimeout(stopRecording, 3000)" type="button" value="start recording" />
+  <input class="btn btn-default" onclick="startRecording(); setTimeout(stopRecording, 3000)" type="button" value="start recording" />
   <!-- <input onclick="stopRecording()" type="button" value="stop recording and play" /> -->
 
   <script>
@@ -40,6 +40,7 @@
       recorder.stop();
       recorder.exportWAV(function(s) {
         audio.src = window.URL.createObjectURL(s);
+        alert('DONE');
       });
     }
   </script>
