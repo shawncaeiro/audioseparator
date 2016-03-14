@@ -15,7 +15,6 @@ application = Flask(__name__)
 
 application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
@@ -43,7 +42,13 @@ def uploadtalk(filename):
             file.save(os.path.join(application.config['UPLOAD_FOLDER'], 'voicey' + filename))
             combinedpath = os.path.join(application.config['UPLOAD_FOLDER'], 'combined' + filename)
             combinesongs(os.path.join(application.config['UPLOAD_FOLDER'], filename), os.path.join(application.config['UPLOAD_FOLDER'], 'voicey' + filename), combinedpath)
-    return url_for('uploaded_file', filename = 'combined' + filename)
+    return url_for('combined', filename = filename)
+
+@application.route('/combined/<filename>')
+def combined(filename):
+    combinedfilename = 'combined' + filename
+    context = {'combinedfilename':combinedfilename, 'filename':filename}
+    return render_template('combined.html', context = context)
 
 @application.route('/thanks/<filename>')
 def thanks(filename):
