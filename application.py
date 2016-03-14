@@ -1,6 +1,6 @@
 from flask import Flask, render_template, url_for, request, send_from_directory, redirect
 from werkzeug import secure_filename
-# from audiostuff import save_spectrogram
+# from sidefunctions import numsamples
 import os
 
 UPLOAD_FOLDER = 'uploads/'
