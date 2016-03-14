@@ -28,7 +28,7 @@ def index():
 def thanks(filename):
     filepath = os.path.join(application.config['UPLOAD_FOLDER'], filename)
     context = {'filename': filename, 'filepath': filepath}
-    save_spectrogram(filepath, filename)
+    # save_spectrogram(filepath, filename)
     return render_template('thanks.html', context = context)
 
 @application.route('/talkover/<filename>')
