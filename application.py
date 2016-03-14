@@ -8,10 +8,11 @@ UPLOAD_FOLDER = 'uploads/'
 ALLOWED_EXTENSIONS = set(['wav', 'mp3'])
 
 application = Flask(__name__)
-application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
 if 'DYNO' in os.environ: # only trigger SSLify if the app is running on Heroku
     sslify = SSLify(application)
+
+application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -46,5 +47,5 @@ def uploaded_file(filename):
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
-    application.run(host='0.0.0.0', port=port, debug=True)
+    application.run(host='0.0.0.0', port=port, debug=False)
     # application.run(port=port, debug=True)
