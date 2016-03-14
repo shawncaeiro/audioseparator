@@ -36,7 +36,7 @@ def index():
 def uploadtalk():
     application.logger.warning("uploadtalk!")
     if request.method == 'POST':
-        data = request.get_json()
+        data = request.form
         application.logger.warning(data)
         # file = data['data']
         # if file:
