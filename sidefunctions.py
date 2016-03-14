@@ -23,7 +23,7 @@ def split(path_to_audio, path_to_output1, path_to_output2):
 
     V_voice = plt_spectrogram(X, window_size, hop_size, sr)
     if np.min(V_voice) < 0:
-    newV_voice = V_voice - np.min(V_voice)
+        newV_voice = V_voice - np.min(V_voice)
     else:
         newV_voice = V_voice
 
