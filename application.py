@@ -8,8 +8,10 @@ UPLOAD_FOLDER = 'uploads/'
 ALLOWED_EXTENSIONS = set(['wav', 'mp3'])
 
 application = Flask(__name__)
-# if 'DYNO' in os.environ: # only trigger SSLify if the app is running on Heroku
-#     sslify = SSLify(application)
+application.debug = False
+
+if 'DYNO' in os.environ: # only trigger SSLify if the app is running on Heroku
+    sslify = SSLify(application)
 
 application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -18,14 +20,14 @@ application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-
-@application.before_request
-def beforeRequest():
-    requestUrl = request.url
-    https = 'https' in requestUrl
-    if https == False:
-        secureUrl = requestUrl.replace('http','https')
-        return redirect(secureUrl)
+# 
+# @application.before_request
+# def beforeRequest():
+#     requestUrl = request.url
+#     https = 'https' in requestUrl
+#     if https == False:
+#         secureUrl = requestUrl.replace('http','https')
+#         return redirect(secureUrl)
 
 @application.route('/', methods=['GET', 'POST'])
 def index():
