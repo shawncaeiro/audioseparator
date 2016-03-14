@@ -1,1 +1,7 @@
 scipy==0.16.1
+Flask==0.10.1
+Werkzeug==0.9.4
+librosa==0.4.2
+scipy==0.16.1
+numpy==1.10.4
+matplotlib==1.5.1
