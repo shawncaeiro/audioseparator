@@ -43,7 +43,7 @@ def uploadtalk(filename):
             file.save(os.path.join(application.config['UPLOAD_FOLDER'], 'voicey' + filename))
             combinedpath = os.path.join(application.config['UPLOAD_FOLDER'], 'combined' + filename)
             combinesongs(os.path.join(application.config['UPLOAD_FOLDER'], filename), os.path.join(application.config['UPLOAD_FOLDER'], 'voicey' + filename), combinedpath)
-    return url_for('uploaded_file', filename = combinedpath)
+    return url_for('uploaded_file', filename = 'combined' + filename)
 
 @application.route('/thanks/<filename>')
 def thanks(filename):
