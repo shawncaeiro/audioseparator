@@ -11,9 +11,11 @@
 
   <input class="btn btn-default" onclick="startRecording(); setTimeout(stopRecording, {{context.lengthms}})" type="button" value="start recording" />
   <input onclick="stopRecording({{context.lengthms}})" type="button" value="Stop" class="btn btn-default" />
-  <form action="" method=post enctype=multipart/form-data>
+  <br>
+  <!-- <form action="" method=post enctype=multipart/form-data>
     <input type="file" id="hidden" name="file" style="display:none;" />
-  </form>
+  </form> -->
+  <button class="btn btn-default" id="upfile" style="display:none;" onclick="uploadtalking()">Upload Talking!</button>
 </div>
   <script>
     var onFail = function(e) {
@@ -35,6 +37,47 @@
 
     var recorder;
     var audio = document.querySelector('audio');
+    var upfile = document.getElementById('upfile');
+
+
+    function uploadAudioFromBlob(blob)
+    {
+        var reader = new FileReader();
+
+        // this is triggered once the blob is read and readAsDataURL returns
+        reader.onload = function (event)
+        {
+            var formData = new FormData();
+            formData.append('audio', event.target.result);
+            $.ajax({
+                type: 'POST'
+                , url: '/uploadtalk/talky.wav'
+                , data: formData
+                , processData: false
+                , contentType: false
+                , dataType: 'application/json'
+                , cache: false
+                , success: function (json)
+                {
+                    if (json.Success)
+                    {
+                        // do successful audio upload stuff
+                    }
+                    else
+                    {
+                        // handle audio upload failure reported
+                        // back from server (I have a json.Error.Msg)
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error! '+ textStatus + ' - ' + errorThrown + '\n\n' + jqXHR.responseText);
+                    // handle audio upload failure
+                }
+            });
+        }
+        reader.readAsDataURL(blob);
+    }
 
     function startRecording() {
       if (navigator.getUserMedia) {
@@ -46,11 +89,13 @@
 
     function stopRecording() {
       audio.style.display='block';
+      upfile.style.display='block';
       recorder.stop();
       recorder.exportWAV(function(s) {
         var hidden_elem = document.getElementById("hidden");
-        hidden_elem.value = s;
+        uploadAudioFromBlob(s);
         audio.src = window.URL.createObjectURL(s);
+        // hidden_elem.value = window.URL.createObjectURL(s);
         alert('DONE');
       });
     }
