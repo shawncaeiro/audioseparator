@@ -8,7 +8,7 @@
   <br>
   <script type="text/javascript" src="{{url_for('static', filename='js/recorder.js')}}">
   </script>
-
+  <span id="upurl" style="display:none;">{{context.uploadurl}}</span>
   <input class="btn btn-default" onclick="startRecording(); setTimeout(stopRecording, {{context.lengthms}})" type="button" value="start recording" />
   <input onclick="stopRecording({{context.lengthms}})" type="button" value="Stop" class="btn btn-default" />
   <br>
@@ -39,47 +39,7 @@
 
     var recorder;
     var audio = document.querySelector('audio');
-    // var upfile = document.getElementById('upfile');
-
-
-    function uploadAudioFromBlob(blob)
-    {
-        var reader = new FileReader();
-
-        // this is triggered once the blob is read and readAsDataURL returns
-        reader.onload = function (event)
-        {
-            var formData = new FormData();
-            formData.append('audio', event.target.result);
-            $.ajax({
-                type: 'POST'
-                , url: '/uploadtalk/talky.wav'
-                , data: formData
-                , processData: false
-                , contentType: false
-                , dataType: 'application/json'
-                , cache: false
-                , success: function (json)
-                {
-                    if (json.Success)
-                    {
-                        // do successful audio upload stuff
-                    }
-                    else
-                    {
-                        // handle audio upload failure reported
-                        // back from server (I have a json.Error.Msg)
-                    }
-                }
-                , error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error! '+ textStatus + ' - ' + errorThrown + '\n\n' + jqXHR.responseText);
-                    // handle audio upload failure
-                }
-            });
-        }
-        reader.readAsDataURL(blob);
-    }
+    var uploadurl = document.getElementById('upurl').innerHTML;
 
     function startRecording() {
       if (navigator.getUserMedia) {
@@ -101,7 +61,7 @@
         fd.append('file', s, 'newfile.wav');
         $.ajax({
             type: 'POST',
-            url: '/uploadtalk',
+            url: uploadurl,
             data: fd,
             processData: false,
             contentType: false

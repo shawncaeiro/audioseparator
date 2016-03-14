@@ -32,14 +32,14 @@ def index():
                                     filename=filename, _scheme='https', _external=True))
     return render_template('index.html')
 
-@application.route('/uploadtalk', methods=['POST'])
-def uploadtalk():
+@application.route('/uploadtalk/<filename>', methods=['POST'])
+def uploadtalk(filename):
     application.logger.warning("uploadtalk!")
     if request.method == 'POST':
         file = request.files['file']
         if file:
-            application.logger.warning(file.filename)
-            filename = secure_filename(file.filename)
+            # application.logger.warning(file.filename)
+            # filename = secure_filename(file.filename)
             file.save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
     return 'thanks'
 
@@ -53,11 +53,12 @@ def thanks(filename):
 
 @application.route('/talkover/<filename>')
 def talkover(filename):
+    uploadurl = '/uploadtalk/voicey' + filename
     truelength = getsonglength(os.path.join(application.config['UPLOAD_FOLDER'], filename))
     length = int(round(truelength))
     lengthms = int(round(truelength * 1000))
     application.logger.warning(length)
-    context = {'length':length, 'lengthms':lengthms}
+    context = {'length':length, 'lengthms':lengthms, 'uploadurl':uploadurl}
     return render_template('talkover.html', context = context)
 
 @application.route('/useruploads/<filename>')
