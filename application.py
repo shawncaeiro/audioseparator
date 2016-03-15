@@ -41,11 +41,11 @@ def uploadtalk(filename):
             # filename = secure_filename(file.filename)
             file.save(os.path.join(application.config['UPLOAD_FOLDER'], 'voicey' + filename))
             combinedpath = os.path.join(application.config['UPLOAD_FOLDER'], 'combined' + filename)
-            # split1filename = 'split1' + filename
-            # split2filename = 'split2' + filename
-            # split1path = os.path.join(application.config['UPLOAD_FOLDER'], split1filename)
-            # split2path = os.path.join(application.config['UPLOAD_FOLDER'], split2filename)
-            outputpath = combinesongs(os.path.join(application.config['UPLOAD_FOLDER'], filename), os.path.join(application.config['UPLOAD_FOLDER'], 'voicey' + filename), combinedpath)
+            split1filename = 'split1' + filename
+            split2filename = 'split2' + filename
+            split1path = os.path.join(application.config['UPLOAD_FOLDER'], split1filename)
+            split2path = os.path.join(application.config['UPLOAD_FOLDER'], split2filename)
+            outputpath = combineandplitsongs(os.path.join(application.config['UPLOAD_FOLDER'], filename), os.path.join(application.config['UPLOAD_FOLDER'], 'voicey' + filename), combinedpath, split1path, split2path)
             application.logger.warning(outputpath)
     return url_for('combined', filename = filename)
 
