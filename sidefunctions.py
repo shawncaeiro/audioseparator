@@ -55,11 +55,11 @@ def splitty(audio, path_to_output1, path_to_output2, sr):
     fullmask1 = np.zeros(X_voice.shape)
     fullmask2 = np.zeros(X_voice.shape)
 
-    fullmask1[:V_voice.shape[0], X_voice.shape[1]] = mask1
-    fullmask1[V_voice.shape[0]:, X_voice.shape[1]] = np.flipud(mask1)
+    fullmask1[:V_voice.shape[0], :] = mask1
+    fullmask1[V_voice.shape[0]:, :] = np.flipud(mask1)
 
-    fullmask2[:V_voice.shape[0], X_voice.shape[1]] = mask2
-    fullmask2[V_voice.shape[0]:, X_voice.shape[1]] = np.flipud(mask2)
+    fullmask2[:V_voice.shape[0], :] = mask2
+    fullmask2[V_voice.shape[0]:, :] = np.flipud(mask2)
 
     part1X = X_voice * fullmask1
     part2X = X_voice * fullmask2
