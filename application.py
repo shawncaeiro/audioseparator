@@ -41,15 +41,20 @@ def uploadtalk(filename):
             # filename = secure_filename(file.filename)
             file.save(os.path.join(application.config['UPLOAD_FOLDER'], 'voicey' + filename))
             combinedpath = os.path.join(application.config['UPLOAD_FOLDER'], 'combined' + filename)
-            combinesongs(os.path.join(application.config['UPLOAD_FOLDER'], filename), os.path.join(application.config['UPLOAD_FOLDER'], 'voicey' + filename), combinedpath)
+            split1filename = 'split1' + filename
+            split2filename = 'split2' + filename
+            split1path = os.path.join(application.config['UPLOAD_FOLDER'], split1filename)
+            split2path = os.path.join(application.config['UPLOAD_FOLDER'], split2filename)
+            combineandsplitsongs(os.path.join(application.config['UPLOAD_FOLDER'], filename), os.path.join(application.config['UPLOAD_FOLDER'], 'voicey' + filename), combinedpath, split1path, split2path)
     return url_for('combined', filename = filename)
 
 @application.route('/combined/<filename>')
 def combined(filename):
     combinedfilename = 'combined' + filename
-    split1filename = 'split1' + filename
-    split2filename = 'split2' + filename
-    splitty(os.path.join(application.config['UPLOAD_FOLDER'], combinedfilename), os.path.join(application.config['UPLOAD_FOLDER'], split1filename), os.path.join(application.config['UPLOAD_FOLDER'], split2filename))
+    # appplication.logger.warning("COMINEDNAME" + combinedfilename)
+    # split1filename = 'split1' + filename
+    # split2filename = 'split2' + filename
+    # splitty(os.path.join(application.config['UPLOAD_FOLDER'], combinedfilename), os.path.join(application.config['UPLOAD_FOLDER'], split1filename), os.path.join(application.config['UPLOAD_FOLDER'], split2filename))
     context = {'combinedfilename':combinedfilename, 'filename':filename}
     return render_template('combined.html', context = context)
 
@@ -81,5 +86,5 @@ def uploaded_file(filename):
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
-    application.run(host='0.0.0.0', port=port, debug=True)
-    # application.run(port=port, debug=True)
+    # application.run(host='0.0.0.0', port=port, debug=True)
+    application.run(port=port, debug=True)
