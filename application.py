@@ -45,8 +45,8 @@ def uploadtalk(filename):
             split2filename = 'split2' + filename
             split1path = os.path.join(application.config['UPLOAD_FOLDER'], split1filename)
             split2path = os.path.join(application.config['UPLOAD_FOLDER'], split2filename)
-            outputpath = combineandsplitsongs(os.path.join(application.config['UPLOAD_FOLDER'], filename), os.path.join(application.config['UPLOAD_FOLDER'], 'voicey' + filename), combinedpath, split1path, split2path)
-            application.logger.warning(outputpath)
+            part1len = combineandsplitsongs(os.path.join(application.config['UPLOAD_FOLDER'], filename), os.path.join(application.config['UPLOAD_FOLDER'], 'voicey' + filename), combinedpath, split1path, split2path)
+            application.logger.warning(part1len)
     return url_for('combined', filename = filename)
 
 @application.route('/combined/<filename>')

@@ -14,7 +14,8 @@ def combineandsplitsongs(path_to_audio, path_to_voice, path_of_output, path_to_o
     voice, sr = librosa.load(path_to_voice)
     song[0:len(voice)] += voice
     librosa.output.write_wav(path_of_output, song, sr)
-    splitty(song, path_to_output1, path_to_output2, sr)
+    split1len = splitty(song, path_to_output1, path_to_output2, sr)
+    return split1len
 
 def combinesongs(path_to_audio, path_to_voice, path_of_output):
     song, sr = librosa.load(path_to_audio)
@@ -70,6 +71,7 @@ def splitty(audio, path_to_output1, path_to_output2, sr):
 
     librosa.output.write_wav(path_to_output1, part1.real, sr)
     librosa.output.write_wav(path_to_output2, part2.real, sr)
+    return len(part1)
 
 def stft(signal, window_size, hop_size, window_type = 'hann'):
     """
