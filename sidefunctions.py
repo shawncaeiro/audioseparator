@@ -18,7 +18,7 @@ def combinesongs(path_to_audio, path_to_voice, path_of_output):
 def splitty(path_to_audio, path_to_output1, path_to_output2):
     window_size = 2048
     hop_size = 1024
-    combined, sr = load(path_to_audio, duration=0.5)
+    combined, sr = load(librosa.util.example_audio_file(), duration=0.5)
 
     X_voice = stft(combined, window_size, hop_size)
 
