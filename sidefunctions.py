@@ -29,7 +29,7 @@ def splitty(audio, path_to_output1, path_to_output2, sr):
 
     X_voice = stft(combined, window_size, hop_size)
 
-    V_voice = plt_spectrogram(X, window_size, hop_size, sr)
+    V_voice = plt_spectrogram(X_voice, window_size, hop_size, sr)
     if np.min(V_voice) < 0:
         newV_voice = V_voice - np.min(V_voice)
     else:
