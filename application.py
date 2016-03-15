@@ -1,6 +1,6 @@
 from flask import Flask, render_template, url_for, request, send_from_directory, redirect
 from werkzeug import secure_filename
-from sidefunctions import getsonglength, combineandsplitsongs, splitty
+from sidefunctions import getsonglength, combineandsplitsongs, splitty, combinesongs
 import logging
 import os
 # from flask_sslify import SSLify
@@ -41,11 +41,12 @@ def uploadtalk(filename):
             # filename = secure_filename(file.filename)
             file.save(os.path.join(application.config['UPLOAD_FOLDER'], 'voicey' + filename))
             combinedpath = os.path.join(application.config['UPLOAD_FOLDER'], 'combined' + filename)
-            split1filename = 'split1' + filename
-            split2filename = 'split2' + filename
-            split1path = os.path.join(application.config['UPLOAD_FOLDER'], split1filename)
-            split2path = os.path.join(application.config['UPLOAD_FOLDER'], split2filename)
-            combineandsplitsongs(os.path.join(application.config['UPLOAD_FOLDER'], filename), os.path.join(application.config['UPLOAD_FOLDER'], 'voicey' + filename), combinedpath, split1path, split2path)
+            # split1filename = 'split1' + filename
+            # split2filename = 'split2' + filename
+            # split1path = os.path.join(application.config['UPLOAD_FOLDER'], split1filename)
+            # split2path = os.path.join(application.config['UPLOAD_FOLDER'], split2filename)
+            outputpath = combinesongs(os.path.join(application.config['UPLOAD_FOLDER'], filename), os.path.join(application.config['UPLOAD_FOLDER'], 'voicey' + filename), combinedpath)
+            application.logger.warning(outputpath)
     return url_for('combined', filename = filename)
 
 @application.route('/combined/<filename>')
