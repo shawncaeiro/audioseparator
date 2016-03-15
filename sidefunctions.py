@@ -3,6 +3,7 @@ from scipy.fftpack import fft
 from scipy.signal import hann
 import numpy as np
 import scipy as sp
+from librosa import load
 
 def getsonglength(path_to_audio):
     song, sr = librosa.load(path_to_audio)
@@ -17,7 +18,7 @@ def combinesongs(path_to_audio, path_to_voice, path_of_output):
 def splitty(path_to_audio, path_to_output1, path_to_output2):
     window_size = 2048
     hop_size = 1024
-    combined, sr = load(path_to_audio)
+    combined, sr = load(path_to_audio, duration=0.5)
 
     X_voice = stft(combined, window_size, hop_size)
 
