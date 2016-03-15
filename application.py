@@ -52,6 +52,12 @@ def uploadtalk(filename):
 @application.route('/combined/<filename>')
 def combined(filename):
     combinedfilename = 'combined' + filename
+    combinedpath = os.path.join(application.config['UPLOAD_FOLDER'], 'combined' + filename)
+    # split1filename = 'split1' + filename
+    # split2filename = 'split2' + filename
+    # split1path = os.path.join(application.config['UPLOAD_FOLDER'], split1filename)
+    # split2path = os.path.join(application.config['UPLOAD_FOLDER'], split2filename)
+    # part1len = combineandsplitsongs(os.path.join(application.config['UPLOAD_FOLDER'], filename), os.path.join(application.config['UPLOAD_FOLDER'], 'voicey' + filename), combinedpath, split1path, split2path)
     # appplication.logger.warning("COMINEDNAME" + combinedfilename)
     # split1filename = 'split1' + filename
     # split2filename = 'split2' + filename
@@ -59,10 +65,18 @@ def combined(filename):
     context = {'combinedfilename':combinedfilename, 'filename':filename}
     return render_template('combined.html', context = context)
 
-# @application.route('/split/<filename>')
-# def split(filename):
-#     split1filename = 'split1' + filename
-#     split2filename = 'split2' + filename
+@application.route('/split/<filename>')
+def split(filename):
+    split1filename = 'split1' + filename
+    split2filename = 'split2' + filename
+    context={'split1name': split1filename, 'split2name':split2filename}
+    # combinedpath = os.path.join(application.config['UPLOAD_FOLDER'], 'combined' + filename)
+    # split1path = os.path.join(application.config['UPLOAD_FOLDER'], split1filename)
+    # split2path = os.path.join(application.config['UPLOAD_FOLDER'], split2filename)
+    # part1len = combineandsplitsongs(os.path.join(application.config['UPLOAD_FOLDER'], filename), os.path.join(application.config['UPLOAD_FOLDER'], 'voicey' + filename), combinedpath, split1path, split2path)
+    # splitty(os.path.join(application.config['UPLOAD_FOLDER'], filename), split1path, split2path)
+    # appplication.logger.warning("COMINEDNAME" + combinedfilename)
+    return render_template('split.html', context=context)
 
 @application.route('/thanks/<filename>')
 def thanks(filename):
